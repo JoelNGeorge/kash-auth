@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: kash-auth
+  datasource:
+    url: jdbc:h2:mem:test_db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: root
+    password: root
+    tomcat:
+      max-wait: 20000
+      max-active: 50
+      max-idle: 20
+      min-idle: 15
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        # dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        id:
+          new_generator_mappings: false
+
+server:
+    port: 8200
+    servlet:
+        context-path: /auth
+
+
+jwt:
+  security:
+    token:
+      secret: BvPHGM8C0ia4uOuxxqPD5DTbWC9F9TWvPStp3pb7ARo0oK2mJ3pd3YG4lxA9i8bj6OTbadwezxgeEByY 
+      expiry: 300000
+            
+management:
+    endpoints:
+        web:
+            base-path: /status
+            exposure:
+                include: health,info
+    endpoint:
+        info:
+            enabled: true
+            
+#---------------- Eureka Client Config --------------                          
+eureka:
+  client:
+#    register-with-eureka: false
+#    fetch-registry: false
+    service-url:
+      defaultZone : http://localhost:8500/eureka
+  instance:
+    prefer-ip-address: false
+    hostname: localhost
+    statusPageUrlPath: /status/info
+    healthCheckUrlPath: /status/health
